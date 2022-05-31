@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react'
+
+import React, {useState} from 'react'
 
 const SortedItem = () => {
-    const [returnedStated, setReturnedState] = useState(null);
+    const [returnedStated, setReturnedState] = useState([]);
    
-    useEffect(() =>{
-        console.log(returnedStated); 
-      },[returnedStated]);
     
     
     function callAPI(){
@@ -29,6 +27,17 @@ const SortedItem = () => {
   return (
     <div>
         <button onClick={callAPI}>Click me!</button>
+        <div>
+            {returnedStated.map((data, key) => {
+                return (
+                    <div key={key}>
+                        <h1>Product Name: {data["product-name"]}</h1>
+                        <h2>Product Quantity: {data["quantity"]}</h2>
+                        <h2>Product Description: {data["product-description"]}</h2>
+                    </div>
+                )
+            })}
+        </div>
     </div>
   )
 }
