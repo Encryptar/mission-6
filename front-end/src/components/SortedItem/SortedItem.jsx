@@ -4,12 +4,12 @@ const SortedItem = () => {
     const [returnedStated, setReturnedState] = useState(null);
    
     useEffect(() =>{
-        console.log(returnedStated);
+        console.log(returnedStated); 
       },[returnedStated]);
     
     
     function callAPI(){
-        const fetchPromise = fetch("http://localhost:9000")
+        fetch("http://localhost:9000")
         .then(
             (response) => {
                 if (response.status !== 200) {
@@ -23,11 +23,12 @@ const SortedItem = () => {
             }).catch((err) => {
                 console.log('Fetch Error :-S', err);
             });
-        }  
+        }
+        
 
   return (
     <div>
-        <button onClick={callAPI()}>Click me!</button>
+        <button onClick={callAPI}>Click me!</button>
     </div>
   )
 }
