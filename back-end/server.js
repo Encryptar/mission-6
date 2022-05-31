@@ -15,8 +15,6 @@ function quicksort(array) {
   return quicksort(left).concat(pivot, quicksort(right));
 };
 
-
-
 async function retrieveDocuments(client){
   const cursor = client.db("PropertyManagerDB").collection("PropertyProductCollection").find({});
   const results = await cursor.toArray();
@@ -42,16 +40,15 @@ async function main() {
 
   try {
     await client.connect();
-    const products = await retrieveDocuments(client);
-    console.log(quicksort(products));
-    
+    const products = quicksort(await retrieveDocuments(client));
+    app.get('/', (req, res) => {
+      res.send(products);
+    })
 
   } catch (e) {
     console.log(e);
   } finally {
     await client.close();
   }
-
-  
 }
 main().catch(console.error);
