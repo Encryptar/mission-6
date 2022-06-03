@@ -1,0 +1,16 @@
+# docker-compose.yml
+version: "3.8"
+services:
+  back-end:
+    build: ./back-end
+    container_name: back-end
+    ports:
+      - '9000:9000'
+
+  front-end:
+    build: ./front-end
+    container_name: front-end
+    ports: 
+      - '3000:3000'
+    stdin_open: true
+    tty: true
