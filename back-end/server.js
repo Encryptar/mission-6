@@ -29,7 +29,7 @@ async function main() {
 
   const app = express();
   const port = process.env.PORT || 9000;
-  const uri = "mongodb+srv://Hayden:Glad3rp2@propertymanagementdb.fxrav.mongodb.net/?retryWrites=true&w=majority";
+  const uri = "mongodb://mongo:27017/PropertyProductDB";
   const client = new MongoClient(uri);
   app.use(cors());
   app.use(express.json());
