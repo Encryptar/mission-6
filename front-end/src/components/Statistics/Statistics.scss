@@ -1,0 +1,42 @@
+.container {
+    display: flex;
+    width: 100%;
+    height: 30vmin;
+    background-color: #f3f3f3;
+    align-items: center;
+    .outside{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 30%;
+        height: 60%;
+        background-color: #991231;
+        color: white;
+    }
+    .inside{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 20%;
+        height: 60%;
+        border-left: 2px solid white;
+        border-right: 2px solid white;
+        background-color: #991231;
+        color: white;
+    }
+    h2 {
+        font-weight: 400;
+        margin-top: 0;
+        font-size: 1.25vmax;
+    }
+    h1 {
+        margin-bottom: 1vmin;
+        font-size: 3vmax;
+    }
+
+    :nth-child(3) {
+        border-left: 0;;
+    }
+}

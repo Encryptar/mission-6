@@ -9,14 +9,14 @@ function quicksort(array) {
   var right = [];
 
   for (var i = 1; i < array.length; i++) {
-    array[i]["product-name"] < pivot["product-name"] ? left.push(array[i]) : right.push(array[i]);
+    array[i]["name"] < pivot["name"] ? left.push(array[i]) : right.push(array[i]);
   }
 
   return quicksort(left).concat(pivot, quicksort(right));
 };
 
 async function retrieveDocuments(client){
-  const cursor = client.db("PropertyManagerDB").collection("PropertyProductCollection").find({});
+  const cursor =  client.db("PropertyProductDB").collection("Properties").find({});
   const results = await cursor.toArray();
   return results;
 };
@@ -30,7 +30,10 @@ async function main() {
   const app = express();
   const port = process.env.PORT || 9000;
   const uri = "mongodb://mongo:27017/PropertyProductDB";
-  const client = new MongoClient(uri);
+  const client = new MongoClient(uri,  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
   app.use(cors());
   app.use(express.json());
   app.listen(port, () => {
@@ -41,7 +44,29 @@ async function main() {
   try {
     await client.connect();
     const products = quicksort(await retrieveDocuments(client));
+    const returnItems = [];
+    returnItems[1] = products.length;
+    let value = 0;
+    for(let i=0; i<products.length; i++){
+      value += parseInt(products[i].Value);
+    }
+
+
+    returnItems[0] = value;
+    counter = 0;
+    for(let i=0; i<products.length; i++){
+      if(products[i]["Pet-friendly"] == true){
+        counter += 1;
+      }
+    }
+    
+    returnItems[2] = counter;
+
     app.get('/', (req, res) => {
+      res.send(returnItems);
+    })
+
+    app.get('/properties', (req, res) => {
       res.send(products);
     })
 
