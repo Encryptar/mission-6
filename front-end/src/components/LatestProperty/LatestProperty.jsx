@@ -4,13 +4,13 @@ import {MdShower} from 'react-icons/md'
 import {FaWarehouse, FaDog} from 'react-icons/fa'
 import {HiOutlineLocationMarker} from 'react-icons/hi'
 import './LatestProperty.scss'
-import house1 from '../../pictures/house1.svg'
 
 const LatestProperty = (props) => {
+    console.log(props["ImageURI"])
   return (
     <div className='property-wrapper'>
         <h3 className='location-text'><HiOutlineLocationMarker/>{props["Suburb"]}</h3>
-        <img src={house1} alt='house'/>
+        <img src={ props["ImageURI"] } alt='house'/>
         <div>
             <div>
                 <h1>
@@ -30,7 +30,7 @@ const LatestProperty = (props) => {
                     <p>Now</p>
                 </div>
             </div>
-            <p><h3>$550</h3>p/w</p>
+            <p><h3>{props["Rent"]}</h3>p/w</p>
         </div>
     </div>
   )

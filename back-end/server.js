@@ -16,7 +16,7 @@ function quicksort(array) {
 };
 
 async function retrieveDocuments(client){
-  const cursor =  client.db("PropertyProductDB").collection("Properties").find({});
+  const cursor =  client.db("Properties").collection("Properties").find({});
   const results = await cursor.toArray();
   return results;
 };
@@ -30,10 +30,7 @@ async function main() {
   const app = express();
   const port = process.env.PORT || 9000;
   const uri = "mongodb://mongo:27017/PropertyProductDB";
-  const client = new MongoClient(uri,  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  });
+  const client = new MongoClient(uri);
   app.use(cors());
   app.use(express.json());
   app.listen(port, () => {

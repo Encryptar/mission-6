@@ -1,6 +1,9 @@
 import {React, useState, useEffect} from 'react'
 import LatestProperty from '../LatestProperty/LatestProperty';
 import './LatestProperties.scss'
+import house1 from '../../pictures/house1.svg'
+import house2 from '../../pictures/house2.svg'
+import house3 from '../../pictures/house3.svg'
 
 const LatestProperties = () => {
 
@@ -23,7 +26,7 @@ const LatestProperties = () => {
             });
         });
         
-
+    let array = [house1, house2, house3]
 
   return (
     <div className='properties-wrapper'>
@@ -38,6 +41,8 @@ const LatestProperties = () => {
                     Bedrooms={data["Bedrooms"]}
                     Bathrooms={data["Bathrooms"]}
                     Garages={data["Garages"]}
+                    Rent={data["Rent"]}
+                    ImageURI={array[key]}
                     />
                 )
             })}
