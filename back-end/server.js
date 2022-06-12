@@ -27,7 +27,7 @@ app.listen(port, function() {
 });
 
 app.get('/Properties', (req, res) =>{
-    Properties.find().then(result => res.send(result)).catch(err => console.log(err));
+    Properties.find().then(result => res.send(quicksort.quicksort(result))).catch(err => console.log(err));
 });
 
 app.get('/Statistics', (req, res) =>{
