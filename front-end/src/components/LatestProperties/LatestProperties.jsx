@@ -37,7 +37,7 @@ const LatestProperties = () => {
                     <LatestProperty key={key} 
                     Name={data["name"]} 
                     Suburb={data["Suburb"]} 
-                    petFriendly={data["Pet-friendly"]} 
+                    petFriendly={data["PetFriendly"]} 
                     Bedrooms={data["Bedrooms"]}
                     Bathrooms={data["Bathrooms"]}
                     Garages={data["Garages"]}

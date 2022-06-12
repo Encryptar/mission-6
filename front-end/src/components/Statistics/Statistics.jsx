@@ -6,7 +6,7 @@ const Statistics = () => {
     const [returnedStated, setReturnedState] = useState([]);
     useEffect(() => {
         console.log(returnedStated);
-        fetch("http://localhost:9000")
+        fetch("http://localhost:9000/Statistics")
         .then(
             (response) => {
                 if (response.status !== 200) {

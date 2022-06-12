@@ -1,76 +1,56 @@
-function quicksort(array) {
-  if (array.length <= 1) {
-    return array;
-  }
+const  express = require("express");
+const dotenv = require("dotenv").config();;
+const mongoose = require("mongoose");
+const { Admin } = require("mongodb");
+const quicksort = require('./quicksort');
+const cors = require('cors');
+const Properties = require('./schema/Properties.js')
 
-  var pivot = array[0];
-  
-  var left = []; 
-  var right = [];
+const app = express();
+app.use(express.json());
+const port = process.env.PORT || 9000;
+const uri = 'mongodb://admin:admin@mongo:27017/Properties?authSource=admin';
 
-  for (var i = 1; i < array.length; i++) {
-    array[i]["name"] < pivot["name"] ? left.push(array[i]) : right.push(array[i]);
-  }
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+        .then(() => console.log('MongoDB Connected'))
+        .catch(err => console.log(err));
 
-  return quicksort(left).concat(pivot, quicksort(right));
-};
-
-async function retrieveDocuments(client){
-  const cursor =  client.db("Properties").collection("Properties").find({});
-  const results = await cursor.toArray();
-  return results;
-};
-
-async function main() {
-  const express = require('express');
-  const cors = require('cors');
-  const {MongoClient} = require('mongodb');
-  require('dotenv').config();
-
-  const app = express();
-  const port = process.env.PORT || 9000;
-  const uri = "mongodb://mongo:27017/PropertyProductDB";
-  const client = new MongoClient(uri);
-  app.use(cors());
-  app.use(express.json());
-  app.listen(port, () => {
-      console.log('Server running on port: ' + port);
-  });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
-  try {
-    await client.connect();
-    const products = quicksort(await retrieveDocuments(client));
-    const returnItems = [];
-    returnItems[1] = products.length;
-    let value = 0;
-    for(let i=0; i<products.length; i++){
-      value += parseInt(products[i].Value);
-    }
+
+app.use(cors());
+
+app.listen(port, function() {
+    console.log(`listening to port ${port}`);
+});
+
+app.get('/Properties', (req, res) =>{
+    Properties.find().then(result => res.send(result)).catch(err => console.log(err));
+});
+
+app.get('/Statistics', (req, res) =>{
+    Properties.find().then(
+        result => {
+            products = quicksort.quicksort(result);
+            const returnItems = [];
+            returnItems[1] = products.length;
+            let value = 0;
+            for(let i=0; i<products.length; i++){
+            value += parseInt(products[i].Value);
+            }
 
 
-    returnItems[0] = value;
-    counter = 0;
-    for(let i=0; i<products.length; i++){
-      if(products[i]["Pet-friendly"] == true){
-        counter += 1;
-      }
-    }
-    
-    returnItems[2] = counter;
-
-    app.get('/', (req, res) => {
-      res.send(returnItems);
-    })
-
-    app.get('/properties', (req, res) => {
-      res.send(products);
-    })
-
-  } catch (e) {
-    console.log(e);
-  } finally {
-    await client.close();
-  }
-}
-main().catch(console.error);
+            returnItems[0] = value;
+            counter = 0;
+            for(let i=0; i<products.length; i++){
+            if(products[i]["PetFriendly"] == true){
+                counter += 1;
+            }}
+            
+            returnItems[2] = counter;
+            res.send(returnItems);
+        }
+    ).catch(err => console.log(err));
+});

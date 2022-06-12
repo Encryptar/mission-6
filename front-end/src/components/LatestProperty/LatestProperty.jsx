@@ -32,6 +32,7 @@ const LatestProperty = (props) => {
             </div>
             <p><h3>{props["Rent"]}</h3>p/w</p>
         </div>
+        <div className='property-footer'></div>
     </div>
   )
 }

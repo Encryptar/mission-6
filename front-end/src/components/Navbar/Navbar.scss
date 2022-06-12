@@ -13,7 +13,11 @@ nav {
         justify-content: space-between;
         font-size: calc(1.5vmax - 1vmin);
         font-weight: 400;
+        li:hover {
+            color: #D5788B;
+        }
     }
+
 
     .left-nav-list {
         padding: 0 0 0 0;
