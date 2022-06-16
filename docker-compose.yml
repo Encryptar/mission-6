@@ -1,36 +1,42 @@
 # docker-compose.yml
 version: "3.8"
 services:
-  back-end:
-    build: ./back-end
-    container_name: back-end
-    ports:
-      - '9000:9000'
-
   mongo:
     image: mongo
     container_name: mongo
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin 
+      MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
     ports:
       - "27017:27017"
     volumes:
       - ./database/db:/data/db
+    networks:
+      - mern-app
 
   mongo-express:
     image: mongo-express
     container_name: mongo-express
     restart: always
     ports:
-      - 6000:6000
+      - 8081:8081
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: admin 
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
       ME_CONFIG_MONGODB_ADMINPASSWORD: admin
       ME_CONFIG_MONGODB_URL: mongodb://admin:admin@mongo:27017/?authSource=admin
     depends_on:
       - mongo
+    networks:
+      - mern-app
+
+  back-end:
+    build: ./back-end
+    container_name: back-end
+    ports:
+      - '9000:9000'
+    networks:
+      - mern-app    
 
   front-end:
     build: ./front-end
@@ -39,3 +45,9 @@ services:
       - '3000:3000'
     stdin_open: true
     tty: true
+    networks:
+      - mern-app
+
+networks:
+  mern-app:
+    driver: bridge
